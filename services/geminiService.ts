@@ -1,5 +1,27 @@
+// IN an ASP.NET Core MVC App:
+// This entire file's logic would be moved to the server-side, written in C#.
+// It could be a dedicated `GeminiService.cs` class that is injected into a Controller, or it could be placed directly within a Controller action.
+//
+// Key Differences:
+// - Language: C# instead of TypeScript.
+// - Gemini SDK: You would use the `Google.Ai.Generativelanguage` NuGet package (or similar C# SDK) instead of `@google/genai`.
+// - API Key: The API key would be stored securely in server-side configuration (e.g., `appsettings.json` or User Secrets) and not exposed to the client at all.
+// - File Handling: The `File` objects from the form post would be received as `IFormFile` in the C# Controller action. You would read their streams into byte arrays to convert to Base64 on the server.
+// - Return Value: Instead of returning a Base64 string to the client, the Controller action would likely redirect to a Result page, passing the generated image URL (or the image data itself) to the view.
+
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from "../utils/fileUtils";
+
+// Example C# Controller Action
+// [HttpPost]
+// public async Task<IActionResult> Generate(GenerateImageViewModel model)
+// {
+//     if (!ModelState.IsValid) { return View("Index", model); }
+//     
+//     var generatedImageUrl = await _geminiService.GenerateMemoryImageAsync(model);
+//
+//     return RedirectToAction("Result", new { imageUrl = generatedImageUrl });
+// }
 
 export const generateMemoryImage = async (
   name: string,
@@ -9,6 +31,7 @@ export const generateMemoryImage = async (
   currentImageFile: File
 ): Promise<string> => {
   if (!process.env.API_KEY) {
+    // In C#, this check would be against the IConfiguration service.
     throw new Error("API_KEY environment variable is not set.");
   }
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });

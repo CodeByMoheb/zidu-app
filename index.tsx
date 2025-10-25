@@ -1,3 +1,11 @@
+// IN an ASP.NET Core MVC App:
+// This file is the entry point for the React client-side application.
+// Its server-side equivalent is `Program.cs`.
+// In `Program.cs`, you would configure the web server (Kestrel), register services for dependency injection 
+// (like a GeminiService), and set up the middleware pipeline (e.g., routing, authentication).
+// The `ReactDOM.createRoot(rootElement).render(...)` call is what starts the React app. In MVC, the application
+// starts listening for HTTP requests via `app.Run()`.
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';

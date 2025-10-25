@@ -1,3 +1,10 @@
+// IN an ASP.NET Core MVC App:
+// This component acts as a client-side router and state manager.
+// In MVC, this logic is handled on the server:
+// - Routing: The URL (e.g., `/Home/Index`, `/Admin`) is mapped to a specific Controller action in C#. This is configured in `Program.cs`.
+// - View Switching: Instead of a `view` state variable, a Controller action would return a specific View (`return View("Result", viewModel);`).
+// - State Management (`isLoading`, `error`): This state would be managed within a single request-response cycle on the server. For example, the `handleGenerate` logic would be a Controller action that returns the Home view with an error message or redirects to the Result view on success.
+
 import React, { useState, useCallback } from 'react';
 import HomePage from './components/HomePage';
 import ResultPage from './components/ResultPage';
@@ -14,6 +21,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // This function would be a C# method in a Controller, e.g., `public async Task<IActionResult> Generate(...)`
   const handleGenerate = useCallback(async (
     name: string,
     childhoodYear: string,
@@ -25,6 +33,7 @@ const App: React.FC = () => {
     setIsLoading(true);
 
     try {
+      // In MVC, this call would be to a server-side C# service, not a client-side TS function.
       const generatedImg = await generateMemoryImage(
         name,
         childhoodYear,
@@ -48,6 +57,7 @@ const App: React.FC = () => {
     setView('home');
   };
   
+  // In MVC, navigation is done via standard anchor tags `<a asp-controller="Home" asp-action="Index">...</a>`
   const handleNavigateHome = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (view === 'result') {
@@ -63,7 +73,6 @@ const App: React.FC = () => {
         return resultImage ? (
           <ResultPage imageUrl={resultImage} onCreateAnother={handleCreateAnother} />
         ) : (
-          // Fallback to home if resultImage is not available
           <HomePage onGenerate={handleGenerate} isLoading={isLoading} error={error} />
         );
       case 'admin':
@@ -75,6 +84,7 @@ const App: React.FC = () => {
   };
 
   return (
+    // This structure would be part of `_Layout.cshtml`.
     <div className="relative min-h-screen bg-[#0a192f] text-gray-200 font-sans p-4 sm:p-6 lg:p-8 overflow-hidden">
       <AnimatedFog />
       <div className="relative z-10 container mx-auto max-w-4xl">
@@ -82,6 +92,7 @@ const App: React.FC = () => {
           <a href="#" onClick={handleNavigateHome}><Logo /></a>
         </header>
         <main>
+          {/* In `_Layout.cshtml`, this section would be replaced by `@RenderBody()` */}
           {renderView()}
         </main>
         <footer className="text-center mt-12 text-sm text-gray-500">

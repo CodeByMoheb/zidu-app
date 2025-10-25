@@ -1,3 +1,10 @@
+<!--
+  IN an ASP.NET Core MVC App:
+  This root HTML file's role would be split between two Razor files:
+  1. `Views/Shared/_Layout.cshtml`: This file defines the main HTML structure (<html>, <head>, <body>), shared across all pages. It would include shared elements like the header, footer, and script/style references.
+  2. `Views/Home/Index.cshtml`: This is the specific view for the home page. Its content gets rendered inside the layout file where `@RenderBody()` is called.
+  This project uses client-side rendering (React hydrates the #root div), whereas a traditional MVC app uses server-side rendering to generate the full HTML before sending it to the browser.
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -62,6 +69,7 @@
     <div id="preloader" class="preloader">
       <div class="preloader-logo">Zidu</div>
     </div>
+    <!-- In MVC, you wouldn't have a single root div. The server would render the full page content here. -->
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

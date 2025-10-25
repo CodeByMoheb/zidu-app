@@ -1,9 +1,18 @@
+// IN an ASP.NET Core MVC App:
+// This component would be part of a separate "Admin" Area.
+// - Area: An MVC Area provides a way to partition a large application into smaller functional groupings.
+// - Controller: An `AdminController.cs` would handle the logic.
+// - View: A corresponding `Views/Admin/Index.cshtml` would render the dashboard.
+// - Security: The `AdminController` would be decorated with an `[Authorize]` attribute to ensure only authenticated and authorized users can access it.
+// - Data: The `mockData` would be replaced with real data fetched from a database (e.g., using Entity Framework Core) inside the controller action and passed to the view via a ViewModel.
+
 import React, { useState } from 'react';
 
 const AdminPage: React.FC = () => {
+    // Authentication state would be managed by the server using cookies or tokens, not a simple React state.
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // MOCK DATA - In a real app, this would come from a backend API
+    // MOCK DATA - In a real app, this would come from a backend API or database.
     const mockData = {
         totalGenerations: 1337,
         uniqueUsers: 428,
@@ -16,9 +25,11 @@ const AdminPage: React.FC = () => {
     };
 
     if (!isLoggedIn) {
+        // The login page would be its own View, e.g., `Views/Account/Login.cshtml`.
         return (
             <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl shadow-lg shadow-cyan-500/10 p-6 sm:p-8 max-w-md mx-auto">
                 <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
+                {/* This would be a form that POSTs credentials to an `AccountController`. */}
                 <div className="flex flex-col space-y-4">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
@@ -40,6 +51,7 @@ const AdminPage: React.FC = () => {
         );
     }
 
+    // This is the main dashboard view (`Views/Admin/Index.cshtml`).
     return (
         <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl shadow-lg shadow-cyan-500/10 p-6 sm:p-8">
             <h2 className="text-3xl font-bold mb-6">Admin Dashboard</h2>
@@ -47,6 +59,7 @@ const AdminPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                 <div className="bg-slate-700/50 p-6 rounded-lg">
                     <h3 className="text-gray-400 text-sm font-medium">Total Generations</h3>
+                    {/* Data would come from the ViewModel: @Model.TotalGenerations */}
                     <p className="text-4xl font-bold text-cyan-400">{mockData.totalGenerations}</p>
                 </div>
                 <div className="bg-slate-700/50 p-6 rounded-lg">
@@ -67,6 +80,7 @@ const AdminPage: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {/* This loop would be a `@foreach` loop in Razor: @foreach (var activity in Model.RecentActivity) */}
                             {mockData.recentActivity.map(activity => (
                                 <tr key={activity.id} className="border-b border-slate-700">
                                     <td className="p-2">{activity.name}</td>
