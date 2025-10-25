@@ -1,3 +1,4 @@
+
 body {
   background-color: #0a192f;
 }
@@ -43,9 +44,11 @@ body {
 }
 
 /* Style for validation messages from ASP.NET Core */
-.field-validation-error {
+.field-validation-error,
+.text-danger {
     color: #f87171; /* red-400 */
     font-size: 0.875rem;
+    display: block;
 }
 
 .validation-summary-errors {

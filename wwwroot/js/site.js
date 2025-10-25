@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
     if (form) {
@@ -29,6 +30,10 @@ function startLoaderMessages() {
     const messageElement = document.getElementById('loader-message');
 
     if (messageElement) {
+        // Set initial message immediately
+        messageElement.textContent = messages[currentIndex];
+        
+        // Change message every 3 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % messages.length;
             messageElement.textContent = messages[currentIndex];
